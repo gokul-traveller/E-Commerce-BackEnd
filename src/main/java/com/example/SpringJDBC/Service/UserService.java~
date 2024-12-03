@@ -1,0 +1,16 @@
+package com.example.SpringJDBC.Service;
+
+import com.example.SpringJDBC.Model.User;
+import com.example.SpringJDBC.Repo.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+public class UserService {
+
+    @Autowired
+    private UserRepo repo;
+    public List<User> getUsers() {
+        return repo.findAll();
+    }
+}

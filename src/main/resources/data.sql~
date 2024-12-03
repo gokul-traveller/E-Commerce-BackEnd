@@ -1,0 +1,28 @@
+-- Insert or Update Product entries
+INSERT INTO product (product_id, brand, name, description, price, stock_quantity, image_name, image_type, image_data)
+VALUES
+(1, 101, 'Product A', 'Description of Product A', 100, 50, 'imageA.jpg', 'image/jpeg', null),
+(2, 102, 'Product B', 'Description of Product B', 200, 30, 'imageB.png', 'image/png', null),
+(3, 103, 'Product C', 'Description of Product C', 150, 40, 'imageC.jpg', 'image/jpeg', null),
+(4, 104, 'Product D', 'Description of Product D', 300, 20, 'imageD.png', 'image/png', null)
+ON CONFLICT (product_id)
+DO UPDATE SET
+    brand = EXCLUDED.brand,
+    name = EXCLUDED.name,
+    description = EXCLUDED.description,
+    price = EXCLUDED.price,
+    stock_quantity = EXCLUDED.stock_quantity,
+    image_name = EXCLUDED.image_name,
+    image_type = EXCLUDED.image_type,
+    image_data = EXCLUDED.image_data;
+
+-- Insert or Update User entries
+INSERT INTO user (user_email, user_password, user_name, user_address, user_phone_no)
+VALUES
+('test@example.com', 'password', 'John Doe', '1234 Elm Street, Kerala, India', 1234567890)
+ON CONFLICT (user_email)
+DO UPDATE SET
+    user_password = EXCLUDED.user_password,
+    user_name = EXCLUDED.user_name,
+    user_address = EXCLUDED.user_address,
+    user_phone_no = EXCLUDED.user_phone_no;
