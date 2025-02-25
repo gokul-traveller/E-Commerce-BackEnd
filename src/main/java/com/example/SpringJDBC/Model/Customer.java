@@ -1,5 +1,6 @@
 package com.example.SpringJDBC.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,11 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Customer {
     @Id
+    @JsonProperty("userEmail")
     private String userEmail;
+    @JsonProperty("userPassword")
     private String userPassword;
-    private String userName;
-    private String userAddress;
-    private int userPhoneNo;
+//    private String userName;
+//    private String userAddress;
+//    private int userPhoneNo;
 }
