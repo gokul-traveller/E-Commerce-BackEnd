@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register", "/login").permitAll() // Public Endpoints
+                .antMatchers("/register", "/login", "/updatePassword").permitAll() // Public Endpoints
                 .anyRequest().authenticated() // Secure all other endpoints
                 .and()
                 .httpBasic().disable() // Disable Basic Auth if using JWT

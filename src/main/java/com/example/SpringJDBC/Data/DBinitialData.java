@@ -2,13 +2,13 @@ package com.example.SpringJDBC.Data;
 
 import com.example.SpringJDBC.Model.Product;
 import lombok.Getter;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -68,16 +68,23 @@ public class DBinitialData {
         ));
     }
 
-    private byte[] getImageDat(String image){
-        File imageFile = new File("C:\\Users\\gokul.gopinath\\Downloads\\SpringJDBC\\SpringJDBC\\src\\main\\resources\\"+image);
+    private byte[] getImageDat(String image) {
         try {
-            byte[] returnVal = Files.readAllBytes(imageFile.toPath());
-            System.out.println(Arrays.toString(returnVal));
-            return returnVal;
+            ClassPathResource imgFile = new ClassPathResource(image);
+            try (InputStream inputStream = imgFile.getInputStream();
+                 ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+
+                int nRead;
+                byte[] data = new byte[16384]; // 16 KB buffer
+
+                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, nRead);
+                }
+
+                return buffer.toByteArray();
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("File not found: " + image, e);
         }
-
-
     }
 }

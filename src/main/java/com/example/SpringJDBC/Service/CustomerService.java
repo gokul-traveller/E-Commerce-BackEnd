@@ -47,6 +47,9 @@ public class CustomerService implements UserDetailsService {
     public Customer encodeCustomer(String e_mail) {
 
         Customer customer = repo.findByUserEmail(e_mail);
+        if(customer == null) {
+            return new Customer("fail","fail");
+        }
         customer.setUserPassword(encoder.encode(customer.getUserPassword()));
         return repo.save(customer);
     }

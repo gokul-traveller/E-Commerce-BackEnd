@@ -2,6 +2,7 @@ package com.example.SpringJDBC.Controller;
 
 import com.example.SpringJDBC.Model.Customer;
 import com.example.SpringJDBC.Model.Product;
+import com.example.SpringJDBC.Model.ProductDTO;
 //import com.example.SpringJDBC.Service.CustomerService;
 import com.example.SpringJDBC.Service.CustomerService;
 import com.example.SpringJDBC.Service.JwtService;
@@ -31,12 +32,6 @@ public class Controller {
     @Autowired
     private JwtService jwtService;
 
-    @GetMapping("/hello")
-    public List<Product> greet(){
-        return productService.getProducts();
-    }
-
-
     @GetMapping("/getUser/{e_mail}")
     public Customer findUserById(@PathVariable("e_mail") String e_mail) {
         System.out.println(e_mail+"from controller");
@@ -46,7 +41,7 @@ public class Controller {
     }
 
     @PostMapping("/getProducts")
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productService.getProducts();
     }
 
@@ -62,12 +57,17 @@ public class Controller {
 
     @PostMapping("/login")
     public String verifyCustomer(@RequestBody Customer customer) {
-        System.out.println(customer);
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customer.getUserEmail(), customer.getUserPassword()));
-        if(authentication.isAuthenticated()) {
+        System.out.println("Login Request: " + customer);
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(customer.getUserEmail(), customer.getUserPassword())
+        );
+
+        if (authentication.isAuthenticated()) {
             return jwtService.generateToken(customer.getUserEmail());
         }
         return "login failed";
     }
+
 
 }

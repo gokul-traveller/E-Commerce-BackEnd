@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: gokul000/my-postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: gokul007!
+      POSTGRES_DB: JavaSpring
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  springboot-app:
+    image: gokul000/springboot-app:latest
+    container_name: spring_app
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/JavaSpring
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: gokul007!
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
